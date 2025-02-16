@@ -1,6 +1,6 @@
 {
 	"contentrating" : "Everyone",
-	"description" : "This is the current skymap based on your country you specified (english name or iso code). I wrote this in js with data from hipparcos main catalog. If u want, have a look at the source code\n\nhttps://github.com/Maisenf/astro-background",
+	"description" : "This is the current skymap based on your country you specified (english name or iso code) or use lat/lon coords. I wrote this in js with data from hipparcos main catalog.\r\n\r\nhttps://github.com/Maisenf/starmap",
 	"file" : "index.html",
 	"general" : 
 	{
@@ -39,6 +39,14 @@
 				"text" : "ui_browse_properties_scheme_color",
 				"type" : "color",
 				"value" : "0 0 0"
+			},
+			"starnames" : 
+			{
+				"index" : 3,
+				"order" : 103,
+				"text" : "starnames",
+				"type" : "bool",
+				"value" : true
 			}
 		}
 	},
@@ -49,8 +57,8 @@
 	"snapshotoverlay" : "",
 	"tags" : [ "Technology" ],
 	"title" : "Starmap with real data",
-	"type" : "web",
-	"version" : 5,
+	"type" : "Web",
+	"version" : 8,
 	"visibility" : "public",
 	"workshopid" : "3428037421",
 	"workshopurl" : "steam://url/CommunityFilePage/3428037421"

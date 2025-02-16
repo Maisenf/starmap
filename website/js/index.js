@@ -147,7 +147,7 @@ function drawStars(stars) {
       ctx.shadowBlur = 0;
 
 
-      if (brightestStars.get(star.HIP)) {
+      if (brightestStars.get(star.HIP) && starname) {
         ctx.font = "12px Arial";
         ctx.fillStyle = "#f0f0f0";
         ctx.fillText(`${brightestStars.get(star.HIP)}`, x, y + 20);
