@@ -5,3 +5,5 @@ This is the current skymap based on your country you specified (English name or 
 I removed the helper scripts and data from the Steam publication because it's just to get data like stars.js and countries.js. You don't have to run the helper scripts, but to get more stars you can edit the querry_brieghtest_stars.py for it.
 
 The wallpaper works perfectly with the wallpaper engine (Windows), but you can also use it with Plash (Mac / default location is Berlin).
+
+![alt text](/website/preview.jpg)
