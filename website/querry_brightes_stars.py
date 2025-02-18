@@ -11,7 +11,7 @@ if result:
     json_data = df.to_json(orient="records", force_ascii=False)
 
     with open("js/stars.js", "w", encoding="utf-8") as f:
-        f.write("window.jsonData = " + json_data + ";")
+        f.write("const jsonDataStars = " + json_data + ";")
 
     print("index.js-Datei erfolgreich gespeichert!")
 else:

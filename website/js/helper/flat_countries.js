@@ -8,10 +8,10 @@ const newArray = countriesData.map(feature => ({
 }));
 // Erzeuge den String, der in der Datei stehen soll:
 // Hier wird das Array schön formatiert (Indentation = 2 Leerzeichen)
-const fileContent = 'window.countriesData = ' + JSON.stringify(newArray, null, 2) + ';';
+const fileContent = 'const countriesData = ' + JSON.stringify(newArray, null, 2) + ';';
 
 // Schreibe den String in die neue Datei (z. B. neueDaten.js)
-fs.writeFileSync('countries_flat.js', fileContent, 'utf8');
+fs.writeFileSync('messier_flat.js', fileContent, 'utf8');
 
 console.log('Die Datei neueDaten.js wurde erfolgreich erstellt!');
 

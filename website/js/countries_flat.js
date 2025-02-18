@@ -1,4 +1,4 @@
-window.countriesData = [
+const countriesData = [
   {
     "name": "Aruba",
     "iso": "ABW",

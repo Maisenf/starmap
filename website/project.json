@@ -44,7 +44,7 @@
 			{
 				"index" : 3,
 				"order" : 103,
-				"text" : "starnames",
+				"text" : "showStarnames",
 				"type" : "bool",
 				"value" : true
 			}

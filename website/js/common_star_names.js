@@ -1,52 +1,80 @@
-window.starNames = new Map([
-  [32349, "Sirius"],                 // α CMa (Großer Hund) :cite[2]:cite[4]
-  [30438, "Canopus"],                // α Car (Schiffskiel) :cite[2]:cite[7]
-  [71683, "Rigil Kentaurus"],        // α Cen A (Zentaur) :cite[2]:cite[10]
-  [69673, "Arcturus"],               // α Boo (Bärenhüter) :cite[2]:cite[8]
-  [91262, "Vega"],                   // α Lyr (Leier) :cite[2]:cite[4]
-  [24608, "Capella"],                // α Aur (Fuhrmann) :cite[2]:cite[8]
-  [24436, "Rigel"],                  // β Ori (Orion) :cite[2]:cite[7]
-  [37279, "Procyon"],                // α CMi (Kleiner Hund) :cite[2]:cite[4]
-  [7588, "Achernar"],                // α Eri (Eridanus) :cite[2]:cite[8]
-  [27989, "Betelgeuse"],             // α Ori (Orion) :cite[2]:cite[4]
-  [68702, "Hadar"],                  // β Cen (Zentaur) :cite[2]:cite[10]
-  [97649, "Altair"],                 // α Aql (Adler) :cite[2]:cite[8]
-  [60718, "Acrux"],                  // α Cru (Kreuz des Südens) :cite[2]:cite[7]
-  [21421, "Aldebaran"],              // α Tau (Stier) :cite[2]:cite[4]
-  [65474, "Spica"],                  // α Vir (Jungfrau) :cite[2]:cite[8]
-  [80763, "Antares"],                // α Sco (Skorpion) :cite[2]:cite[7]
-  [37826, "Pollux"],                 // β Gem (Zwillinge) :cite[2]:cite[4]
-  [113368, "Fomalhaut"],             // α PsA (Südlicher Fisch) :cite[2]:cite[8]
-  [62434, "Mimosa"],                 // β Cru (Kreuz des Südens) :cite[2]:cite[7]
-  [102098, "Deneb"],                 // α Cyg (Schwan) :cite[2]:cite[4]
-  [49669, "Regulus"],                // α Leo (Löwe) :cite[2]:cite[8]
-  [33579, "Adhara"],                 // ε CMa (Großer Hund) :cite[2]:cite[7]
-  //[36850, "Castor"],                 // α Gem (Zwillinge) :cite[2]:cite[10]
-  [61084, "Gacrux"],                 // γ Cru (Kreuz des Südens) :cite[2]:cite[7]
-  [85927, "Shaula"],                 // λ Sco (Skorpion) :cite[2]:cite[4]
-  [25336, "Bellatrix"],              // γ Ori (Orion) :cite[2]:cite[8]
-  [25428, "Elnath"],                 // β Tau (Stier) :cite[2]:cite[7]
-  [45238, "Miaplacidus"],            // β Car (Schiffskiel) :cite[2]:cite[4]
-  //[26311, "Alnilam"],                // ε Ori (Orion) :cite[2]:cite[8]
-  [26727, "Alnitak"],                // ζ Ori (Orion) :cite[2]:cite[7]
-  [31681, "Alhena"],                 // γ Gem (Zwillinge) :cite[2]:cite[4]
-  [39953, "Kaus Australis"],         // ε Sgr (Schütze) :cite[2]:cite[8]
-  [41037, "Avior"],                  // ε Car (Schiffskiel) :cite[2]:cite[7]
-  [42913, "Delta Velorum"],          // δ Vel (Segel des Schiffs) :cite[2]
-  [46390, "Alphard"],                // α Hya (Wasserschlange) :cite[2]:cite[7]
-  [54061, "Dubhe"],                  // α UMa (Großer Bär) :cite[2]:cite[4]
-  [62956, "Alioth"],                 // ε UMa (Großer Bär) :cite[2]:cite[8]
-  [67301, "Alkaid"],                 // η UMa (Großer Bär) :cite[2]:cite[7]
-  [68702, "Hadar"],                  // β Cen (Zentaur) – Bestätigung :cite[2]
-  [90185, "Kaus Australis"],         // ε Sgr (Schütze) – Alternativer Name :cite[2]
-  [100751, "Peacock"],               // α Pav (Pfau) :cite[2]:cite[4]
-  [109268, "Alnair"],                // α Gru (Kranich) :cite[2]:cite[7]
-  [11767, "Polaris"],                // α UMi (Kleiner Bär) :cite[2]:cite[8]
-  [15863, "Mirphak"],                // α Per (Perseus) :cite[2]
-  [28360, "Menkalinan"],             // β Aur (Fuhrmann) :cite[2]:cite[4]
-  [34444, "Wezen"],                  // δ CMa (Großer Hund) :cite[2]:cite[7]
-  [46390, "Alphard"],                // α Hya (Wasserschlange) – Bestätigung :cite[2]
-  [82273, "Atria"],                  // α TrA (Südliches Dreieck) :cite[2]
-  [86228, "Theta Scorpii"]           // θ Sco (Skorpion) :cite[2]
+const brightestStars = new Map([
+  [32349, "Sirius"],                 // α CMa (Großer Hund)
+  [30438, "Canopus"],                // α Car (Schiffskiel)
+  [71683, "Rigil Kentaurus"],        // α Cen A (Zentaur)
+  [69673, "Arcturus"],               // α Boo (Bärenhüter)
+  [91262, "Vega"],                   // α Lyr (Leier)
+  [24608, "Capella"],                // α Aur (Fuhrmann)
+  [24436, "Rigel"],                  // β Ori (Orion)
+  [37279, "Procyon"],                // α CMi (Kleiner Hund)
+  [7588, "Achernar"],                // α Eri (Eridanus)
+  [27989, "Betelgeuse"],             // α Ori (Orion)
+  [68702, "Hadar"],                  // β Cen (Zentaur)
+  [97649, "Altair"],                 // α Aql (Adler)
+  [60718, "Acrux"],                  // α Cru (Kreuz des Südens)
+  [21421, "Aldebaran"],              // α Tau (Stier)
+  [65474, "Spica"],                  // α Vir (Jungfrau)
+  [80763, "Antares"],                // α Sco (Skorpion)
+  [37826, "Pollux"],                 // β Gem (Zwillinge)
+  [113368, "Fomalhaut"],             // α PsA (Südlicher Fisch)
+  [62434, "Mimosa"],                 // β Cru (Kreuz des Südens)
+  [102098, "Deneb"],                 // α Cyg (Schwan)
+  [49669, "Regulus"],                // α Leo (Löwe)
+  [33579, "Adhara"],                 // ε CMa (Großer Hund)
+  [61084, "Gacrux"],                 // γ Cru (Kreuz des Südens)
+  [85927, "Shaula"],                 // λ Sco (Skorpion)
+  [25336, "Bellatrix"],              // γ Ori (Orion)
+  [25428, "Elnath"],                 // β Tau (Stier)
+  [45238, "Miaplacidus"],            // β Car (Schiffskiel)
+  //[26727, "Alnitak"],                // ζ Ori (Orion)
+  [31681, "Alhena"],                 // γ Gem (Zwillinge)
+  [39953, "Kaus Australis"],         // ε Sgr (Schütze)
+  [41037, "Avior"],                  // ε Car (Schiffskiel)
+  [42913, "Alsephina"],              // δ Vel (Segel des Schiffs)
+  [46390, "Alphard"],                // α Hya (Wasserschlange)
+  [54061, "Dubhe"],                  // α UMa (Großer Bär)
+  [62956, "Alioth"],                 // ε UMa (Großer Bär)
+  [67301, "Alkaid"],                 // η UMa (Großer Bär)
+  [100751, "Peacock"],               // α Pav (Pfau)
+  [109268, "Alnair"],                // α Gru (Kranich)
+  [11767, "Polaris"],                // α UMi (Kleiner Bär)
+  [15863, "Mirphak"],                // α Per (Perseus)
+  [28360, "Menkalinan"],             // β Aur (Fuhrmann)
+  [34444, "Wezen"],                  // δ CMa (Großer Hund)
+  [82273, "Atria"],                  // α TrA (Südliches Dreieck)
+  [86228, "Sargas"],                 // θ Sco (Skorpion)
+  [17702, "Pleiades"],               // η Tau (Stier)
+  [36850, "Castor"],                 // α Gem (Zwillinge)
+  //[26311, "Alnilam"],                // ε Ori (Orion)
+  [27366, "Saiph"],                  // κ Ori (Orion)
+  [746, "Caph"],                     // β Cas (Kassiopeia)
+  [677, "Alpheratz"],                // α And (Andromeda)
+  [113881, "Scheat"],                // β Peg (Pegasus)
+  [113963, "Markab"],                // α Peg (Pegasus)
+  [14576, "Algol"],                  // β Per (Perseus)
+  [9884, "Hamal"],                   // α Ari (Widder)
+  [14135, "Menkar"],                 // α Cet (Walfisch)
+  [5447, "Mirach"],                  // β And (Andromeda)
+  [9640, "Almaak"],                  // γ And (Andromeda)
+  [117221, "Alfirk"],                // β Cep (Cepheus)
+  [1067, "Algenib"],                 // γ Peg (Pegasus)
+  [2081, "Ankaa"],                   // α Phe (Phönix)
+  [3419, "Diphda"],                  // β Cet (Walfisch)
+  [95947, "Albireo"],                // β Cyg (Schwan)
+  [107315, "Enif"],                  // ε Peg (Pegasus)
+  [76267, "Alphekka"],               // α CrB (Nördliche Krone)
+  [98036, "Alshain"],                // β Aql (Adler)
+  //[97278, "Tarazed"],                // γ Aql (Adler)
+  [72607, "Kochab"],                 // β UMi (Kleiner Bär)
+  [77070, "Unukalhai"],              // α Ser (Schlange)
+  [68756, "Thuban"],                 // α Dra (Drache)
+  [87833, "Etamin"],                 // γ Dra (Drache)
+  [112122, "Sadr"],                  // γ Cyg (Schwan)
+  [112029, "Gienah"],                // ε Cyg (Schwan)
+  [102488, "Ruchbah"],               // δ Cas (Kassiopeia)
+  [65378, "Mizar"],                  // ζ UMa (Großer Bär)
+  //[65477, "Alcor"],                  // 80 UMa (Großer Bär)
+  [67301, "Alkaid"],                 // η UMa (Großer Bär)
+  [58001, "Phecda"],                 // γ UMa
 ]);
 

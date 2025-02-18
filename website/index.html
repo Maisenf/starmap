@@ -4,18 +4,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sternenhimmel</title>
+  <title>Starmap</title>
   <link href="css/style.css" rel="stylesheet">
-  <script type="text/javascript" src="js/wallpaper_engine.js"></script>
+
+  <!-- Settings Variables + Wallpaper Engine vars -->
+  <script type="text/javascript" src="js/settings.js"></script>
+
+  <!-- Js Array imports for local website -->
+  <script type="text/javascript" src="js/common_star_names.js"></script>
+  <script type="text/javascript" src="js/stars.js"></script>
+  <script type="text/javascript" src="js/messierData.js"></script>
+  <script type="text/javascript" src="js/countries_flat.js"></script>
 </head>
 
 <body>
-  <canvas id="container"></canvas>
+  <canvas id="containerStars"></canvas>
+  <canvas id="containerMessier"></canvas>
   <canvas id="background"></canvas>
-  <script type="text/javascript" src="js/common_star_names.js"></script>
-  <script type="text/javascript" src="js/stars.js"></script>
-  <script type="text/javascript" src="js/countries_flat.js"></script>
-  
+
+  <!-- Drawing Logic -->
   <script type="text/javascript" src="js/index.js"></script>
 </body>
 

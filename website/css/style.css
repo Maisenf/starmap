@@ -7,18 +7,27 @@ body {
   background-color: #13001b;
 }
 
-#container {
+#containerStars {
   position: absolute;
   width: 100%;
   height: 100%;
-  /* background: linear-gradient(195deg, #00000b, #02000f, #050113, #080115, #0c0118, #0f0019, #13001b); */
+  background: transparent;
+  z-index: 2;
+}
+
+#containerMessier {
+  position: absolute;
+  width: 100%;
+  height: 100%;
   background: transparent;
   z-index: 1;
 }
 
+
+
 #background {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   position: absolute;
   z-index: 0;
 }
