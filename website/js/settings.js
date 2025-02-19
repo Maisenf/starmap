@@ -14,7 +14,7 @@ var settings = {
 window.wallpaperPropertyListener = {
   applyUserProperties: function (properties) {
     if (properties.country) {
-      const loc = getGeoLocation(properties.country.valuetry);
+      const loc = getGeoLocation(properties.country.value);
       if (loc) {
         settings.lat = loc[1], settings.lon = loc[0];
         resizeCanvas();
@@ -29,7 +29,31 @@ window.wallpaperPropertyListener = {
       resizeCanvas();
     }
     if (properties.starnames) {
-      settings.showStarnames = properties.showStarnames.value;
+      settings.showStarnames = properties.starnames.value;
+      resizeCanvas();
+    }
+    if (properties.font) {
+      settings.font = properties.font.value;
+      resizeCanvas();
+    }
+    if (properties.fontsize) {
+      settings.fontSize = properties.fontsize.value;
+      resizeCanvas();
+    }
+    if (properties.userscalestars) {
+      settings.userScaleStars = properties.userscalestars.value;
+      resizeCanvas();
+    }
+    if (properties.showmessierobjects) {
+      settings.showMessierObjects = properties.showmessierobjects.value;
+      resizeCanvas();
+    }
+    if (properties.showmessiernames) {
+      settings.showMessierNames = properties.showmessiernames.value;
+      resizeCanvas();
+    }
+    if (properties.userscalemessierobjects) {
+      settings.userScaleMessierObjects = properties.userscalemessierobjects.value;
       resizeCanvas();
     }
   },

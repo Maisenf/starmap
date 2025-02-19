@@ -13,6 +13,8 @@ const blueCo = [2.17374683e-82, -6.82574350e-77, 9.17262316e-72, -6.60390151e-67
 
 let scaleX, scaleY;
 
+const messierDataFlat = messierData.filter(m => m.image);
+
 function getGeoLocation(name) {
   const country = countriesData.find(country => country.name === name || country.iso === name);
   if (country) {
@@ -45,18 +47,37 @@ function prepareBackground() {
   ctxBackground.fillRect(0, 0, canvasBackground.width, canvasBackground.height);
 }
 
+const offscreenCanvasStars = document.createElement("canvas");
+const offscreenCtxStars = offscreenCanvasStars.getContext("2d");
+
+const offscreenCanvasMessier = document.createElement("canvas");
+const offscreenCtxMessier = offscreenCanvasMessier.getContext("2d");
+
 function resizeCanvas() {
   canvasStars.width = window.innerWidth;
   canvasStars.height = window.innerHeight;
-  canvasMessier.width = window.innerWidth;
-  canvasMessier.height = window.innerHeight;
+  canvasMessier.width = canvasStars.width;
+  canvasMessier.height = canvasStars.height;
+
+  offscreenCanvasStars.width = canvasStars.width;
+  offscreenCanvasStars.height = canvasStars.height;
+  offscreenCanvasMessier.width = canvasStars.width;
+  offscreenCanvasMessier.height = canvasStars.height;
+
   scaleX = canvasStars.width / 2;
   scaleY = canvasStars.height / 2;
-  resetCanvas();
+
   if (settings.showMessierObjects) {
-    drawMessierObjects(messierData);
+    drawMessierObjects(messierDataFlat, offscreenCtxMessier, function () {
+      ctxMessier.clearRect(0, 0, canvasMessier.width, canvasMessier.height);
+      ctxMessier.drawImage(offscreenCanvasMessier, 0, 0);
+    });
   }
-  drawStars(jsonDataStars);
+
+  drawStars(jsonDataStars, offscreenCtxStars);
+  ctxStars.clearRect(0, 0, canvasStars.width, canvasStars.height);
+  ctxStars.drawImage(offscreenCanvasStars, 0, 0);
+  resetCanvas();
 }
 
 function raDecToAltAz(ra, dec, lat, lon) {
@@ -113,16 +134,16 @@ function bvToRGB(ci) {
 }
 
 function resetCanvas() {
-  ctxStars.clearRect(0, 0, canvasStars.width, canvasStars.height);
-  ctxStars.fillStyle = "transparent";
-  ctxStars.fillRect(0, 0, canvasStars.width, canvasStars.height);
+  offscreenCtxStars.clearRect(0, 0, canvasStars.width, canvasStars.height);
+  offscreenCtxStars.fillStyle = "transparent";
+  offscreenCtxStars.fillRect(0, 0, canvasStars.width, canvasStars.height);
 
-  ctxMessier.clearRect(0, 0, canvasMessier.width, canvasMessier.height);
-  ctxMessier.fillStyle = "transparent";
-  ctxMessier.fillRect(0, 0, canvasMessier.width, canvasMessier.height);
+  offscreenCtxMessier.clearRect(0, 0, canvasMessier.width, canvasMessier.height);
+  offscreenCtxMessier.fillStyle = "transparent";
+  offscreenCtxMessier.fillRect(0, 0, canvasMessier.width, canvasMessier.height);
 }
 
-function drawStars(stars) {
+function drawStars(stars, ctx) {
 
   const centerX = canvasStars.width / 2;
   const centerY = canvasStars.height / 2;
@@ -141,36 +162,42 @@ function drawStars(stars) {
         starColor = bvToRGB(star.BV);
       }
 
-      ctxStars.beginPath();
-      ctxStars.arc(x, y, brightness, 0, 2 * Math.PI);
-      ctxStars.fillStyle = starColor;
+      ctx.beginPath();
+      ctx.arc(x, y, brightness, 0, 2 * Math.PI);
+      ctx.fillStyle = starColor;
 
 
-      ctxStars.shadowColor = starColor;
-      ctxStars.shadowBlur = brightness * 3;
-      ctxStars.fill();
-      ctxStars.shadowBlur = 0;
+      ctx.shadowColor = starColor;
+      ctx.shadowBlur = brightness * 3;
+      ctx.fill();
+      ctx.shadowBlur = 0;
 
 
       if (brightestStars.get(star.HIP) && settings.showStarnames) {
-        ctxStars.font = settings.fontSize + " " + settings.font;
-        ctxStars.fillStyle = "#f0f0f0";
-        ctxStars.fillText(`${brightestStars.get(star.HIP)}`, x, y + 20);
+        ctx.font = settings.fontSize + " " + settings.font;
+        ctx.fillStyle = "#f0f0f0";
+        ctx.fillText(`${brightestStars.get(star.HIP)}`, x, y + 20);
       }
     }
   });
 }
 
-function drawMessierObjects(messierObjects) {
+function drawMessierObjects(messierObjects, ctx, callback) {
   const centerX = canvasMessier.width / 2;
   const centerY = canvasMessier.height / 2;
+  let imagesLoaded = 0;
+  let imagesToLoad = messierObjects.length;
+
+  if (imagesToLoad === 0) {
+    if (callback) callback(); // Falls keine Bilder existieren, direkt Callback aufrufen
+    return;
+  }
 
   messierObjects.forEach(messier => {
     const { alt, az } = raDecToAltAz(messier.ra, messier.dec, settings.lat, settings.lon);
 
     if (alt > 0 && messier.image) {
       const r = (90 - alt) / 90;
-
       const x = centerX + (scaleX * r) * Math.sin(az * Math.PI / 180);
       const y = centerY - (scaleY * r) * Math.cos(az * Math.PI / 180);
 
@@ -178,19 +205,29 @@ function drawMessierObjects(messierObjects) {
       img.src = messier.image;
 
       img.onload = function () {
-        ctxMessier.globalAlpha = 0.9;
-        const imgSize = Math.max(7, 50 - messier.mag * 5) * settings.userScaleMessierObjects;
-        ctxMessier.drawImage(img, x - imgSize / 2, y - imgSize / 2, imgSize, imgSize);
-        ctxMessier.globalAlpha = 1;
+        ctx.globalAlpha = 0.9;
+        const imgSize = Math.max(5, 50 - messier.mag * 5) * settings.userScaleMessierObjects;
+        ctx.drawImage(img, x - imgSize / 2, y - imgSize / 2, imgSize, imgSize);
+        ctx.globalAlpha = 1;
+
         if (settings.showMessierNames) {
-          ctxMessier.font = settings.fontSize + " " + settings.font;
-          ctxMessier.fillStyle = "#f0f0f0";
-          ctxMessier.fillText(messier.messier, x, y + imgSize / 2 + 10);
+          ctx.font = settings.fontSize + " " + settings.font;
+          ctx.fillStyle = "#f0f0f0";
+          ctx.fillText(messier.messier, x, y + imgSize / 2 + 10);
+        }
+
+        imagesLoaded++;
+        if (imagesLoaded === imagesToLoad && callback) {
+          callback();
         }
       };
+    } else {
+      imagesLoaded++;
     }
   });
 }
+
+
 
 
 var last = performance.now() / 1000;

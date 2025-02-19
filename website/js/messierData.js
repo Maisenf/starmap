@@ -569,7 +569,7 @@ const messierData = [
     "mag": 7
   },
   {
-    "messier": "M82",
+    "messier": "",
     "english_name": "Big Bear",
     "ra": 148.96970833333333,
     "dec": 69.6793888888889,
@@ -577,7 +577,7 @@ const messierData = [
     "image": "./img/M82.webp"
   },
   {
-    "messier": "M81",
+    "messier": "M81 & M82",
     "english_name": "Big Bear",
     "ra": 148.88820833333332,
     "dec": 69.06530555555555,
