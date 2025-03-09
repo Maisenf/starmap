@@ -1,60 +1,95 @@
 var settings = {
   fps: 0.1,
   lat: 52.52,
-  lon: 13.40,
+  lon: 13.40,   //Berlin 
   font: "Arial",
   fontSize: "12px",
-  showStarnames: true,
+  showStarNames: false,
+  starCount: 5,
   userScaleStars: 1,
   showMessierObjects: true,
-  showMessierNames: true,
+  showMessierNames: false,
   userScaleMessierObjects: 1,
+  showConstellationLines: false,
+  lineColor: "#408dd0",
+  showConstellationNames: false,
+  showPlanets: true,
+  showPlanetsNames: false,
+  userScalePlanets: 0.8
 };
 
 window.wallpaperPropertyListener = {
   applyUserProperties: function (properties) {
     if (properties.country) {
-      const loc = getGeoLocation(properties.country.value);
-      if (loc) {
-        settings.lat = loc[1], settings.lon = loc[0];
-        resizeCanvas();
-      }
+      initCountry(properties.country).then(result => {
+        settings.lat = result.Latitude;
+        settings.lon = result.Longitude;
+        draw();
+      });
     }
     if (properties.lat) {
       settings.lat = parseFloat(properties.lat.value);
-      resizeCanvas();
+      draw();
     }
     if (properties.lon) {
       settings.lon = parseFloat(properties.lon.value);
-      resizeCanvas();
+      draw();
     }
     if (properties.starnames) {
-      settings.showStarnames = properties.starnames.value;
-      resizeCanvas();
+      settings.showStarNames = properties.starnames.value;
+      draw();
     }
     if (properties.font) {
       settings.font = properties.font.value;
-      resizeCanvas();
+      draw();
     }
     if (properties.fontsize) {
       settings.fontSize = properties.fontsize.value;
-      resizeCanvas();
+      draw();
     }
     if (properties.userscalestars) {
       settings.userScaleStars = properties.userscalestars.value;
-      resizeCanvas();
+      draw();
     }
     if (properties.showmessierobjects) {
       settings.showMessierObjects = properties.showmessierobjects.value;
-      resizeCanvas();
+      draw();
     }
     if (properties.showmessiernames) {
       settings.showMessierNames = properties.showmessiernames.value;
-      resizeCanvas();
+      draw();
     }
     if (properties.userscalemessierobjects) {
       settings.userScaleMessierObjects = properties.userscalemessierobjects.value;
-      resizeCanvas();
+      draw();
+    }
+    if (properties.userScalePlanets) {
+      settings.userScalePlanets = properties.userscaleplanets.value;
+      draw();
+    }
+    if (properties.showplanets) {
+      settings.showPlanets = properties.showplanets.value;
+      draw();
+    }
+    if (properties.showplanetsnames) {
+      settings.showPlanetsNames = properties.showplanetsnames.value;
+      draw();
+    }
+    if (properties.userscaleplanets) {
+      settings.userScalePlanets = properties.userscaleplanets.value;
+      draw();
+    }
+    if (properties.showconstellationlines) {
+      settings.showConstellationLines = properties.showconstellationlines.value;
+      draw();
+    }
+    if (properties.showconstellationnames) {
+      settings.showConstellationNames = properties.showconstellationnames.value;
+      draw();
+    }
+    if (properties.starcount) {
+      settings.starCount = properties.starcount.value;
+      initData(settings.starCount).then(() => { draw(); });
     }
   },
 };

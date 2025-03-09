@@ -12,7 +12,7 @@ body {
   width: 100%;
   height: 100%;
   background: transparent;
-  z-index: 2;
+  z-index: 3;
 }
 
 #containerMessier {
@@ -20,14 +20,19 @@ body {
   width: 100%;
   height: 100%;
   background: transparent;
+  z-index: 2;
+}
+
+#compass {
+  width: 100%;
+  height: 100%;
+  position: absolute;
   z-index: 1;
 }
 
-
-
 #background {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   position: absolute;
   z-index: 0;
 }
