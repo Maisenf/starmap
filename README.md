@@ -6,7 +6,14 @@ I removed the helper scripts and data from the Steam publication because it's ju
 
 The wallpaper works perfectly with the wallpaper engine (Windows), but you can also use it with Plash (Mac / default location is Berlin).
 
-Image Credits
+Data Credits
+
+- star and planets data from Vizier (https://vizier.cds.unistra.fr/viz-bin/VizieR)
+- Messier catalogue (https://www.datastro.eu/explore/dataset/catalogue-de-messier/export/?disjunctive.objet&disjunctive.mag&disjunctive.english_name_nom_en_anglais&disjunctive.french_name_nom_francais&disjunctive.latin_name_nom_latin)
+- Constellation Data from stellarium (https://github.com/Stellarium/stellarium/blob/master/skycultures/modern_iau/index.json)
+- Country Data (https://datahub.io/core/geo-countries#data-previews) 
+
+Image Credits (Messier-Objects)
 
 - Messier Images: NASA, ESA, and the Hubble Heritage Team (STScI/AURA)
 (https://science.nasa.gov/mission/hubble/science/explore-the-night-sky/hubble-messier-catalog/)
