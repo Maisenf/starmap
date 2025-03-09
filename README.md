@@ -2,7 +2,7 @@
 
 This is the current skymap based on your country you specified (English name or iso code) or use lat/lon coordinates. I wrote this in js using data from the Hipparcos main catalog.
 
-I removed the helper scripts and data from the Steam publication because it's just to fill the db with data. You don't have to run the helper scripts, but to get more stars you can edit (Vmag = Magnitude -> higher Value shows more stars) the querry_brieghtest_stars.py. You need to write the db in a base54 string and put it in the data.js file, beacuse i wanted this to work without a web server in plain html/js. I used the sql.js lib to querry the db.
+I removed the helper scripts and data from the Steam publication because it's just to fill the db with data. You don't have to run the helper scripts, but to get more stars you can edit (Vmag = Magnitude -> higher Value shows more stars) the querry_brieghtest_stars.py. There for you need to write the db in a base64 string and put it in the data.js file, beacuse i wanted this to work without a web server in plain html/js. I used the sql.js lib to querry the db.
 
 The wallpaper works perfectly with the wallpaper engine (Windows), but you can also use it with Plash (Mac / default location is Berlin).
 
