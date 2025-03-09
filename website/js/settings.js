@@ -1,7 +1,9 @@
+// Default Settings on start, Edit if you want!!
 var settings = {
   fps: 0.1,
   lat: 52.52,
-  lon: 13.40,   //Berlin 
+  lon: 13.40,   //Berlin
+  country: "",  // This overwrites the lat/lon, leave empty to use lat/lon from above, example: "NZL" or "New Zealand" | "DEU" or "Germany" | ...
   font: "Arial",
   fontSize: "12px",
   showStarNames: false,
@@ -10,14 +12,15 @@ var settings = {
   showMessierObjects: true,
   showMessierNames: false,
   userScaleMessierObjects: 1,
-  showConstellationLines: false,
+  showConstellationLines: true,
   lineColor: "#408dd0",
   showConstellationNames: false,
-  showPlanets: true,
+  showPlanets: false,
   showPlanetsNames: false,
   userScalePlanets: 0.8
 };
 
+//Wallpaper Engin Listener for change in settings
 window.wallpaperPropertyListener = {
   applyUserProperties: function (properties) {
     if (properties.country) {

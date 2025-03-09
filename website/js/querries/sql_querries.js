@@ -36,9 +36,6 @@ async function getConstellations(db) {
 }
 
 async function getCountry(db, input) {
-  if (input === ""){
-    input = "DEU";
-  }
   const stmt = db.prepare("SELECT * FROM Countries WHERE :input = Name OR :input = ISO");
   return stmt.getAsObject({ ":input": input });
 }

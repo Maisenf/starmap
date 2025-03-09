@@ -380,7 +380,7 @@ function drawConstellation(constellations, ctx) {
           }
         });
 
-        if (points.length && settings.showConstellationLines) {
+        if (points.length) {
           ctx.beginPath();
           points.forEach((p, i) => {
             i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y);
@@ -420,7 +420,6 @@ function drawConstellation(constellations, ctx) {
 }
 
 
-
 var last = performance.now() / 1000;
 var fpsThreshold = 0;
 
@@ -447,17 +446,21 @@ function run() {
 
 function draw() {
   resizeCanvas();
-  
   if (settings.showMessierObjects) {
     drawMessierObjects(messierDataFlat, offscreenCtxMessier).then( () => {
+      // Promise because img async load
+      // Maybe draw after each load??? to reduce flicker on reload
       ctxMessier.clearRect(0, 0, canvasMessier.width, canvasMessier.height);
       ctxMessier.drawImage(offscreenCanvasMessier, 0, 0);
     });
   }
-
-  drawPlanets(jsonDataKeplerPlanets, offscreenCtxStars);
+  if(settings.showPlanets){
+    drawPlanets(jsonDataKeplerPlanets, offscreenCtxStars);
+  }
   drawStars(jsonDataStars, offscreenCtxStars);
-  drawConstellation(constellationData, offscreenCtxStars);
+  if(settings.showConstellationLines){
+    drawConstellation(constellationData, offscreenCtxStars);
+  }
   ctxStars.clearRect(0, 0, canvasStars.width, canvasStars.height);
   ctxStars.drawImage(offscreenCanvasStars, 0, 0);
   resetCanvas();
@@ -486,6 +489,15 @@ async function initData(magnitude) {
   constellationData = await getConstellations(mydb);
 }
 
+// init lat and lon, based on country
+if (settings.country !== ""){
+  initCountry(settings.country).then(result => {
+    if(result.ID !== undefined){
+      settings.lat = result.Latitude;
+      settings.lon = result.Longitude;
+    }
+  });
+}
 
 window.onload = function () {
   prepareBackground();
@@ -493,4 +505,5 @@ window.onload = function () {
   window.requestAnimationFrame(run);
 };
 
-window.addEventListener("resize", draw); //draw on browser resize (optional)
+//draw on browser resize (optional)
+window.addEventListener("resize", draw);
