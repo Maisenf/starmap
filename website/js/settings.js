@@ -4,7 +4,7 @@ var settings = {
   lat: 52.52,
   lon: 13.40,   //Berlin
   country: "",  // This overwrites the lat/lon, leave empty to use lat/lon from above, example: "NZL" or "New Zealand" | "DEU" or "Germany" | ...
-  font: "Arial",
+  font: "Cascadia Code",
   fontSize: "12px",
   showStarNames: false,
   starCount: 5,
@@ -14,10 +14,10 @@ var settings = {
   userScaleMessierObjects: 1,
   showConstellationLines: true,
   lineColor: "#408dd0",
-  showConstellationNames: false,
-  showPlanets: false,
+  showConstellationNames: true,
+  showPlanets: true,
   showPlanetsNames: false,
-  userScalePlanets: 0.8
+  userScalePlanets: 1
 };
 
 //Wallpaper Engin Listener for change in settings

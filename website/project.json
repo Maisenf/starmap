@@ -1,6 +1,6 @@
 {
 	"contentrating" : "Everyone",
-	"description" : "This is the current skymap based on your country you specified (english name or iso code) or use lat/lon coords. I wrote this in js with data from hipparcos main catalog.\r\n\r\nhttps://github.com/Maisenf/starmap",
+	"description" : "This is the current skymap based on lat/lon coordinates you can provide (default is Berlin). I wrote this in js using data from hipparco's main catalog.\n\nhttps://github.com/Maisenf/starmap",
 	"file" : "index.html",
 	"general" : 
 	{
@@ -8,27 +8,42 @@
 		{
 			"country" : 
 			{
-				"condition" : "lat.value == \"\"",
-				"index" : 0,
-				"order" : 100,
-				"text" : "country",
+				"index" : 15,
+				"order" : 115,
+				"text" : "country (alternativ for lat/lon)",
 				"type" : "textinput",
 				"value" : ""
 			},
+			"font" : 
+			{
+				"index" : 2,
+				"order" : 102,
+				"text" : "font",
+				"type" : "textinput",
+				"value" : "Cascadia Code"
+			},
+			"fontsize" : 
+			{
+				"index" : 3,
+				"order" : 103,
+				"text" : "fontSize",
+				"type" : "textinput",
+				"value" : "10px"
+			},
 			"lat" : 
 			{
-				"condition" : "country.value == \"\"",
-				"index" : 1,
-				"order" : 101,
+				"condition" : "",
+				"index" : 0,
+				"order" : 100,
 				"text" : "Latitute",
 				"type" : "textinput",
 				"value" : "52.52"
 			},
 			"lon" : 
 			{
-				"condition" : "country.value == \"\"",
-				"index" : 2,
-				"order" : 102,
+				"condition" : "",
+				"index" : 1,
+				"order" : 101,
 				"text" : "Longitute",
 				"type" : "textinput",
 				"value" : "13.40"
@@ -38,15 +53,113 @@
 				"order" : 0,
 				"text" : "ui_browse_properties_scheme_color",
 				"type" : "color",
-				"value" : "0 0 0"
+				"value" : "0.0196078431372549 0 0.10196078431372549"
+			},
+			"showconstellationlines" : 
+			{
+				"index" : 13,
+				"order" : 113,
+				"text" : "show constellation lines",
+				"type" : "bool",
+				"value" : true
+			},
+			"showconstellationnames" : 
+			{
+				"index" : 14,
+				"order" : 114,
+				"text" : "show constellation names",
+				"type" : "bool",
+				"value" : true
+			},
+			"showmessiernames" : 
+			{
+				"index" : 7,
+				"order" : 107,
+				"text" : "Messier Names",
+				"type" : "bool",
+				"value" : false
+			},
+			"showmessierobjects" : 
+			{
+				"index" : 6,
+				"order" : 106,
+				"text" : "Messier Objects",
+				"type" : "bool",
+				"value" : true
+			},
+			"showplanets" : 
+			{
+				"index" : 10,
+				"order" : 110,
+				"text" : "showPlanets",
+				"type" : "bool",
+				"value" : true
+			},
+			"showplanetsnames" : 
+			{
+				"index" : 11,
+				"order" : 111,
+				"text" : "show Planets Names",
+				"type" : "bool",
+				"value" : false
+			},
+			"starcount" : 
+			{
+				"fraction" : false,
+				"index" : 9,
+				"max" : 5,
+				"min" : 2,
+				"order" : 109,
+				"text" : "star count",
+				"type" : "slider",
+				"value" : 5
 			},
 			"starnames" : 
 			{
-				"index" : 3,
-				"order" : 103,
-				"text" : "showStarnames",
+				"index" : 4,
+				"order" : 104,
+				"text" : "starnames",
 				"type" : "bool",
-				"value" : true
+				"value" : false
+			},
+			"userscalemessierobjects" : 
+			{
+				"fraction" : true,
+				"index" : 8,
+				"max" : 5,
+				"min" : 0.5,
+				"order" : 108,
+				"precision" : 2,
+				"step" : 0.1,
+				"text" : "Scale Messier Objects",
+				"type" : "slider",
+				"value" : 1
+			},
+			"userscaleplanets" : 
+			{
+				"fraction" : true,
+				"index" : 12,
+				"max" : 2,
+				"min" : 0.2,
+				"order" : 112,
+				"precision" : 2,
+				"step" : 0.1,
+				"text" : "user scale planets",
+				"type" : "slider",
+				"value" : 0.8
+			},
+			"userscalestars" : 
+			{
+				"fraction" : true,
+				"index" : 5,
+				"max" : 3,
+				"min" : 0.5,
+				"order" : 105,
+				"precision" : 2,
+				"step" : 0.1,
+				"text" : "scale stars",
+				"type" : "slider",
+				"value" : 1
 			}
 		}
 	},
@@ -56,9 +169,9 @@
 	"snapshotformat" : -1,
 	"snapshotoverlay" : "",
 	"tags" : [ "Technology" ],
-	"title" : "Starmap with real data",
-	"type" : "Web",
-	"version" : 8,
+	"title" : "Starmap",
+	"type" : "web",
+	"version" : 12,
 	"visibility" : "public",
 	"workshopid" : "3428037421",
 	"workshopurl" : "steam://url/CommunityFilePage/3428037421"
