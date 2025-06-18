@@ -1,5 +1,6 @@
 from astroquery.vizier import Vizier
 import sqlite3
+import pandas as pd
 
 brightest_stars = {
     32349: "Sirius",
@@ -76,61 +77,80 @@ brightest_stars = {
     58001: "Phecda",
 }
 
-# Konfiguration des Vizier-Abfrage-Clients:
+# Eigennamenfunktion
+def get_custom_name(hip):
+    return brightest_stars.get(int(hip), None)
+
+# Vizier-Konfiguration
 vizier = Vizier(columns=["HIP", "RAICRS", "DEICRS", "Plx", "B-V", "Vmag"])
 vizier.ROW_LIMIT = -1
 
-# Abfrage: Alle Sterne mit Vmag < 4 aus dem Hipparcos-Katalog
-result = vizier.query_constraints(catalog=["I/239/hip_main"], Vmag="<5")
+# Abfrage Hipparcos-Katalog
+hip_result = vizier.query_constraints(catalog=["I/239/hip_main"], Vmag="<5")
 
-if result:
-    # Konvertiere das Ergebnis in ein Pandas DataFrame
-    df = result[0].to_pandas()
-
-    # Sortiere die Daten nach Vmag (aufsteigend)
-    df = df.sort_values(by="Vmag", ascending=True)
-
-    # Benenne Spalten um:
-    # - "B-V" in "BV"
-    # - "DEICRS" in "ERICRS" (entspricht der ICRS-Deklinationsangabe)
+if hip_result:
+    df = hip_result[0].to_pandas()
     df.rename(columns={"B-V": "BV"}, inplace=True)
+    df.sort_values(by="Vmag", ascending=True, inplace=True)
+    df["HIP"] = df["HIP"].astype(int)
 
-    def get_name(hip):
-        try:
-            hip_int = int(hip)
-        except Exception:
-            return None
-        return brightest_stars.get(hip_int, None)
+    # Bayer-Bezeichnungen
+    bayer_vizier = Vizier(columns=["HIP", "Bayer", "Cst"])
+    bayer_vizier.ROW_LIMIT = -1
+    print("Frage Bayer-Bezeichnungen ab ...")
+    hip_list = df["HIP"].astype(str).unique().tolist()
 
-    df["Name"] = df["HIP"].apply(get_name) 
+    try:
+        bayer_result = bayer_vizier.query_constraints(catalog="IV/27A", HIP=hip_list)
+        if bayer_result:
+            print("Bayer-Ergebnisse gefunden.")
+        else:
+            print("Keine Bayer-Ergebnisse gefunden.")
+    except Exception as e:
+        print("Fehler beim Abfragen der Bayer-Bezeichnungen:", e)
+        bayer_result = None
 
-    # Verbindung zur SQLite-Datenbank (Datei: stars.db)
-    conn = sqlite3.connect('../data.db')
+
+    if bayer_result:
+        df_bayer = bayer_result[0].to_pandas()
+        df_bayer["HIP"] = df_bayer["HIP"].astype(int)
+
+        # Merge mit df
+        df = df.merge(df_bayer[["HIP", "Bayer", "Cst"]], on="HIP", how="left")
+
+        # BayerName erzeugen
+        df["BayerName"] = df.apply(
+            lambda row: f"{row['Bayer']} {row['Cst']}" if pd.notnull(row["Bayer"]) and pd.notnull(row["Cst"]) else None,
+            axis=1
+        )
+
+        # Kombinierter Name (Custom > BayerName)
+        df["Name"] = df.apply(lambda row: get_custom_name(row["HIP"]) or row["BayerName"], axis=1)
+        print(bayer_result)
+    else:
+        # Kein Bayer-Ergebnis → nur Custom-Namen
+        df["Name"] = df["HIP"].apply(get_custom_name)
+
+    # Verbindung zur DB
+    conn = sqlite3.connect('./website/data.db')
     cursor = conn.cursor()
 
-    # Einfügen der Daten in die Tabelle "Stars"
     for _, row in df.iterrows():
-        cursor.execute(
-            """
+        cursor.execute("""
             INSERT OR REPLACE INTO Stars (HIP, Name, RAICRS, DEICRS, Plx, BV, Vmag)
             VALUES (?, ?, ?, ?, ?, ?, ?)
-        """,
-            (
-                int(row["HIP"]),
-                row["Name"],
-                row["RAICRS"],
-                row["DEICRS"],
-                row["Plx"],
-                row["BV"],
-                row["Vmag"],
-            ),
-        )
+        """, (
+            int(row["HIP"]),
+            row["Name"],
+            row["RAICRS"],
+            row["DEICRS"],
+            row["Plx"],
+            row["BV"],
+            row["Vmag"],
+        ))
 
     conn.commit()
     conn.close()
-
-    print(
-        "Die Daten wurden erfolgreich in der SQLite-Datenbank 'stars.db' in der Tabelle 'Stars' gespeichert!"
-    )
+    print("Die Sterne wurden erfolgreich eingetragen.")
 else:
-    print("Keine Ergebnisse gefunden.")
+    print("Keine Ergebnisse aus dem Hipparcos-Katalog gefunden.")

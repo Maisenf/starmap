@@ -29,3 +29,24 @@ body {
   z-index: 1;
 }
 
+#menu{
+  position: absolute;
+  border: 2px solid #408dd0;
+  border-radius: 5px;
+  background-color: #0c0118;
+  display: none;
+  z-index: 2;
+}
+
+#information{
+  display: grid;
+  padding: 10px;
+}
+
+#starPreview{
+  align-items: center;
+  display: flex;
+  padding: 10px;
+  margin-left: 10px;
+}
+

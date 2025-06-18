@@ -24,6 +24,46 @@ function drawMessierObjectsHTML(messierObjects, container) {
       imgEl.style.opacity = "0.9";
       imgEl.style.pointerEvents = "none";
       container.appendChild(imgEl);
+      imgEl.onclick = function () {
+
+        const menu = document.getElementById("menu");
+        const name = document.getElementById("name");
+        const size = document.getElementById("size");
+        const distance = document.getElementById("distance");
+        const categorie = document.getElementById("categorie");
+        const helligkeit = document.getElementById("helligkeit");
+
+        menu.style.fontFamily = settings.font
+        menu.style.fontSize = settings.fontSize
+        menu.style.color = settings.lineColor
+
+        
+        menu.style.display = "flex";
+
+        
+        name.textContent = `Name: ${star.Name || 'Unbenannt'}`;
+        
+        distance.textContent = `Entfernung: ${star.Plx ? (1000 / star.Plx * 3.26156).toFixed(1) + ' Lj' : 'unbekannt'}`;
+        categorie.textContent = `HIP-Katalog-Nr.: ${star.HIP || 'n/a'}`;
+        helligkeit.textContent = `Helligkeit (Vmag): ${star.Vmag?.toFixed(2) ?? 'n/a'}`;
+        menu.style.left = `${parseFloat(starEl.style.left) + 30}px`;
+        menu.style.top = `${parseFloat(starEl.style.top) - 10}px`;
+
+        const starPreview = document.getElementById("starPreview");
+        starPreview.innerHTML = ''; 
+
+        const previewStar = document.createElement("div");
+        previewStar.style.width = `${brightness * 2}px`;
+        previewStar.style.height = `${brightness * 2}px`;
+        previewStar.style.borderRadius = "50%";
+        previewStar.style.background = starColor;
+        previewStar.style.boxShadow = `0 0 ${brightness * 3}px ${starColor}`;
+        previewStar.style.margin = "10px auto";
+        previewStar.style.position = "relative";
+
+        starPreview.appendChild(previewStar);
+
+      };
     });
   }
   

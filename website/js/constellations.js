@@ -9,6 +9,8 @@ function drawConstellationHTML(constellations, container) {
     svg.style.position = "absolute";
     svg.style.top = "0";
     svg.style.left = "0";
+    svg.style.pointerEvents = "none";
+
     container.appendChild(svg);
   
     const centerX = window.innerWidth / 2;
