@@ -10,7 +10,7 @@ function drawMessierObjectsHTML(messierObjects, container) {
       const x = centerX + (centerX * r) * Math.sin(az * Math.PI / 180);
       const y = centerY - (centerY * r) * Math.cos(az * Math.PI / 180);
   
-      const imgSize = Math.max(4, 40 - messier.Magnitude * 5) * settings.userScaleMessierObjects;
+      const imgSize = Math.max(5, 40 - messier.Magnitude * 5) * settings.userScaleMessierObjects;
   
       const imgEl = messierImages[messier.Image]?.cloneNode() || new Image();
       imgEl.src = messier.Image; 
@@ -22,47 +22,54 @@ function drawMessierObjectsHTML(messierObjects, container) {
       imgEl.style.width = `${imgSize}px`;
       imgEl.style.height = `${imgSize}px`;
       imgEl.style.opacity = "0.9";
-      imgEl.style.pointerEvents = "none";
+      imgEl.style.pointerEvents = "auto";
       container.appendChild(imgEl);
-      imgEl.onclick = function () {
+      imgEl.onclick = function (event) {
+        event.stopPropagation(); // verhindert, dass das globale document.click es sofort wieder schließt
 
         const menu = document.getElementById("menu");
         const name = document.getElementById("name");
-        const size = document.getElementById("size");
         const distance = document.getElementById("distance");
         const categorie = document.getElementById("categorie");
         const helligkeit = document.getElementById("helligkeit");
 
-        menu.style.fontFamily = settings.font
-        menu.style.fontSize = settings.fontSize
-        menu.style.color = settings.lineColor
+        menu.style.fontFamily = settings.font;
+        menu.style.fontSize = settings.fontSize;
+        menu.style.color = settings.lineColor;
 
-        
         menu.style.display = "flex";
 
-        
-        name.textContent = `Name: ${star.Name || 'Unbenannt'}`;
-        
-        distance.textContent = `Entfernung: ${star.Plx ? (1000 / star.Plx * 3.26156).toFixed(1) + ' Lj' : 'unbekannt'}`;
-        categorie.textContent = `HIP-Katalog-Nr.: ${star.HIP || 'n/a'}`;
-        helligkeit.textContent = `Helligkeit (Vmag): ${star.Vmag?.toFixed(2) ?? 'n/a'}`;
-        menu.style.left = `${parseFloat(starEl.style.left) + 30}px`;
-        menu.style.top = `${parseFloat(starEl.style.top) - 10}px`;
+        name.textContent = `Name: ${messier.EnglishName || messier.Messier}`;
+        if ((messier.Distance/1000000) < 1){
+          distance.textContent = `Distance: ${ (messier.Distance) + ' Lj' || 'unbekannt'}`;
+        }else{
+          distance.textContent = `Distance: ${ (messier.Distance/1000000) + ' Mil Lj' || 'unbekannt'}`;
+        }
+        categorie.textContent = `Messier-Nr.: ${messier.Messier || 'n/a'}`;
+        helligkeit.textContent = `Magnitude: ${messier.Magnitude?.toFixed(2) ?? 'n/a'}`;
+
+        checkMenüBounderies(x, y);
 
         const starPreview = document.getElementById("starPreview");
-        starPreview.innerHTML = ''; 
+        starPreview.innerHTML = '';
 
         const previewStar = document.createElement("div");
-        previewStar.style.width = `${brightness * 2}px`;
-        previewStar.style.height = `${brightness * 2}px`;
-        previewStar.style.borderRadius = "50%";
-        previewStar.style.background = starColor;
-        previewStar.style.boxShadow = `0 0 ${brightness * 3}px ${starColor}`;
-        previewStar.style.margin = "10px auto";
-        previewStar.style.position = "relative";
+        const previewImage = document.createElement("img");
+
+        if (messier.Image) {
+          previewImage.src = messier.Image;
+          previewImage.style.display = "block";
+          previewImage.style.width = `100px`;
+          previewImage.style.height = "auto";
+          previewImage.style.objectFit = "contain";
+          previewImage.style.display = "block";
+        } else {
+          previewImage.style.display = "none"; 
+        }
+
+        previewStar.appendChild(previewImage);
 
         starPreview.appendChild(previewStar);
-
       };
     });
   }

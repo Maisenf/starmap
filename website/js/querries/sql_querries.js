@@ -18,7 +18,6 @@ async function getMessierObjects(db) {
   while (stmt.step()) {
     results.push(stmt.getAsObject());
   }
-
   stmt.free();
   return results;
 }

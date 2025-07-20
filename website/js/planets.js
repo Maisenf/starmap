@@ -69,8 +69,53 @@ function drawPlanetsHTML(planetData, container) {
       imgEl.style.width = `${imgSize}px`;
       imgEl.style.height = `${imgSize}px`;
       imgEl.style.opacity = "0.8";
-      imgEl.style.pointerEvents = "none";
+      imgEl.style.pointerEvents = "auto";
       container.appendChild(imgEl);
+
+      imgEl.onclick = function (event) {
+        event.stopPropagation();
+
+        const menu = document.getElementById("menu");
+        const name = document.getElementById("name");
+        const distance = document.getElementById("distance");
+        const categorie = document.getElementById("categorie");
+        const helligkeit = document.getElementById("helligkeit");
+
+        menu.style.fontFamily = settings.font;
+        menu.style.fontSize = settings.fontSize;
+        menu.style.color = settings.lineColor;
+
+        menu.style.display = "flex";
+
+        name.textContent = `Name: ${planet.name.split(" ")[0]}`;
+        distance.textContent = `Magnitude: ${planet.magnitude}`;
+        categorie.textContent = "";
+        helligkeit.textContent ="";
+
+        checkMenüBounderies(x,y);
+
+        const starPreview = document.getElementById("starPreview");
+        starPreview.innerHTML = '';
+
+        const previewStar = document.createElement("div");
+        const previewImage = document.createElement("img");
+
+        const planetImage = "img/planets/" + planet.name.split(" ")[0] + ".webp";
+        if (planetImage) {
+          previewImage.src = planetImage;
+          previewImage.style.display = "block";
+          previewImage.style.width = `100px`;
+          previewImage.style.height = "auto";
+          previewImage.style.objectFit = "contain";
+          previewImage.style.display = "block";
+        } else {
+          previewImage.style.display = "none"; 
+        }
+
+        previewStar.appendChild(previewImage);
+
+        starPreview.appendChild(previewStar);
+      };
   
       if (settings.showPlanetsNames) {
         const label = document.createElement("div");
@@ -91,3 +136,30 @@ function drawPlanetsHTML(planetData, container) {
     });
 }
   
+function checkMenüBounderies(x,y){
+
+  let left = x + 30;
+  let top = y - 10;
+
+  menu.style.visibility = "hidden";
+  menu.style.display = "flex";
+
+  const menuRect = menu.getBoundingClientRect();
+  const menuWidth = menuRect.width;
+  const menuHeight = menuRect.height;
+
+  menu.style.visibility = "visible";
+
+  if (left + menuWidth > window.innerWidth) {
+    left = window.innerWidth - menuWidth - 10;
+  }
+  if (top + menuHeight > window.innerHeight) {
+    top = window.innerHeight - menuHeight - 10;
+  }
+  if (left < 0) left = 10;
+  if (top < 0) top = 10;
+
+  menu.style.left = `${left}px`;
+  menu.style.top = `${top}px`;
+
+}

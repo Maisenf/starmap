@@ -59,7 +59,8 @@ for obj in data:
         "english_name": english_name,
         "ra": hms_to_degrees(obj.get("ra")),
         "dec": dms_to_degrees(obj.get("dec")),
-        "mag": obj.get("mag")
+        "mag": obj.get("mag"),
+        "dist": obj.get("distance")
     }
     if image_entry:
         new_obj["image"] = "./img/" + image_entry["image"]
@@ -75,14 +76,15 @@ cursor = conn.cursor()
 # Einfügen (bzw. Ersetzen) der Daten in die Tabelle MessierObjects
 for obj in messier_array:
     cursor.execute('''
-        INSERT OR REPLACE INTO MessierObjects (Messier, EnglishName, RA, Dec, Magnitude, Image)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT OR REPLACE INTO MessierObjects (Messier, EnglishName, RA, Dec, Magnitude, Distance, Image)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
     ''', (
         obj["messier"],
         obj["english_name"],
         obj["ra"],
         obj["dec"],
         obj["mag"],
+        obj["dist"],
         obj.get("image")
     ))
 

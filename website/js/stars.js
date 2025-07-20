@@ -1,3 +1,78 @@
+brightest_stars = {
+    32349: "Sirius",
+    30438: "Canopus",
+    71683: "Rigil Kentaurus",
+    69673: "Arcturus",
+    91262: "Vega",
+    24608: "Capella",
+    24436: "Rigel",
+    37279: "Procyon",
+    7588: "Achernar",
+    27989: "Betelgeuse",
+    68702: "Hadar",
+    97649: "Altair",
+    60718: "Acrux",
+    21421: "Aldebaran",
+    65474: "Spica",
+    80763: "Antares",
+    37826: "Pollux",
+    113368: "Fomalhaut",
+    62434: "Mimosa",
+    102098: "Deneb",
+    49669: "Regulus",
+    33579: "Adhara",
+    61084: "Gacrux",
+    85927: "Shaula",
+    25336: "Bellatrix",
+    25428: "Elnath",
+    45238: "Miaplacidus",
+    31681: "Alhena",
+    39953: "Kaus Australis",
+    41037: "Avior",
+    42913: "Alsephina",
+    46390: "Alphard",
+    54061: "Dubhe",
+    62956: "Alioth",
+    67301: "Alkaid",
+    100751: "Peacock",
+    109268: "Alnair",
+    11767: "Polaris",
+    15863: "Mirphak",
+    28360: "Menkalinan",
+    34444: "Wezen",
+    82273: "Atria",
+    86228: "Sargas",
+    17702: "Pleiades",
+    36850: "Castor",
+    27366: "Saiph",
+    746: "Caph",
+    677: "Alpheratz",
+    113881: "Scheat",
+    113963: "Markab",
+    14576: "Algol",
+    9884: "Hamal",
+    14135: "Menkar",
+    5447: "Mirach",
+    9640: "Almaak",
+    117221: "Alfirk",
+    1067: "Algenib",
+    2081: "Ankaa",
+    3419: "Diphda",
+    95947: "Albireo",
+    107315: "Enif",
+    76267: "Alphekka",
+    98036: "Alshain",
+    72607: "Kochab",
+    77070: "Unukalhai",
+    68756: "Thuban",
+    87833: "Etamin",
+    112122: "Sadr",
+    112029: "Gienah",
+    102488: "Ruchbah",
+    65378: "Mizar",
+    58001: "Phecda",
+}
+
 function drawStarsHTML(stars, container) {
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
@@ -47,11 +122,11 @@ function drawStarsHTML(stars, container) {
         
         name.textContent = `Name: ${star.Name || 'Unbenannt'}`;
         
-        distance.textContent = `Entfernung: ${star.Plx ? (1000 / star.Plx * 3.26156).toFixed(1) + ' Lj' : 'unbekannt'}`;
+        distance.textContent = `Distance: ${star.Plx ? (1000 / star.Plx * 3.26156).toFixed(1) + ' Lj' : 'unbekannt'}`;
         categorie.textContent = `HIP-Katalog-Nr.: ${star.HIP || 'n/a'}`;
-        helligkeit.textContent = `Helligkeit (Vmag): ${star.Vmag?.toFixed(2) ?? 'n/a'}`;
-        menu.style.left = `${parseFloat(starEl.style.left) + 30}px`;
-        menu.style.top = `${parseFloat(starEl.style.top) - 10}px`;
+        helligkeit.textContent = `Magnitude: ${star.Vmag?.toFixed(2) ?? 'n/a'}`;
+
+        checkMenüBounderies(parseFloat(starEl.style.left), parseFloat(starEl.style.top));
 
         const starPreview = document.getElementById("starPreview");
         starPreview.innerHTML = ''; 
@@ -68,12 +143,12 @@ function drawStarsHTML(stars, container) {
         starPreview.appendChild(previewStar);
 
       };
-
-
   
       container.appendChild(starEl);
+
+      const starNames = Object.values(brightest_stars);
   
-      if (star.Name && settings.showStarNames) {
+      if (settings.showStarNames && starNames.includes(star.Name)) {
         const label = document.createElement("div");
         label.className = "star-label";
         label.textContent = star.Name;
@@ -91,14 +166,14 @@ function drawStarsHTML(stars, container) {
 document.addEventListener("click", function (event) {
   const menu = document.getElementById("menu");
 
-  // Falls Menü nicht sichtbar, abbrechen
   if (menu.style.display !== "flex") return;
 
-  // Prüfe, ob der Klick auf einen Stern oder das Menü selbst war
   const isStar = event.target.classList.contains("star");
+  const isMessier = event.target.classList.contains("messier-object");
   const isInsideMenu = menu.contains(event.target);
 
-  if (!isStar && !isInsideMenu) {
+  if (!isStar && !isMessier && !isInsideMenu) {
     menu.style.display = "none";
   }
+
 });

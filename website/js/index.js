@@ -45,3 +45,17 @@ window.onload = function () {
     run();
   });
 };
+
+window.onbeforeunload = () => {
+  cancelAnimationFrame(animationFrameId);
+  clearInterval(updateInterval);
+  planetImages = null;
+  starData = null;
+  messierData = null;
+  jsonDataStars= null; 
+  jsonDataKeplerPlanets= null;
+  constellationData=null;
+  countryData=null;
+  starsByHip = null;
+  messierImages = null;
+};

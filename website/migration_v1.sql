@@ -24,6 +24,7 @@ CREATE TABLE MessierObjects (
     RA REAL,
     Dec REAL,
     Magnitude REAL,
+    Distance REAL,
     Image TEXT
 );
 
@@ -54,3 +55,5 @@ DROP TABLE Planets;
 DROP TABLE MessierObjects;
 DROP TABLE Countries;
 DROP TABLE Constellations;
+
+SELECT * FROM MessierObjects WHERE Messier = 'M31';
